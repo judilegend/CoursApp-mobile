@@ -18,6 +18,7 @@ export const unstable_settings = {
 };
 
 import { CourseProvider } from "@/context/CourseContext";
+import { TabProvider } from "@/context/TabContext";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -49,20 +50,22 @@ function RootLayoutNav() {
 
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-      <CourseProvider>
-        <Stack>
-          <Stack.Screen name="index" options={{ headerShown: false }} />
-          <Stack.Screen name="login" options={{ headerShown: false }} />
-          <Stack.Screen
-            name="dashboard"
-            options={{ title: "Tableau de Bord", headerShown: false }}
-          />
-          <Stack.Screen
-            name="home"
-            options={{ title: "Page d'acceuil", headerShown: false }}
-          />
-        </Stack>
-      </CourseProvider>
+      <TabProvider>
+        <CourseProvider>
+          <Stack>
+            <Stack.Screen name="index" options={{ headerShown: false }} />
+            <Stack.Screen name="login" options={{ headerShown: false }} />
+            <Stack.Screen
+              name="dashboard"
+              options={{ title: "Tableau de Bord", headerShown: false }}
+            />
+            <Stack.Screen
+              name="home"
+              options={{ title: "Page d'acceuil", headerShown: false }}
+            />
+          </Stack>
+        </CourseProvider>
+      </TabProvider>
     </ThemeProvider>
   );
 }

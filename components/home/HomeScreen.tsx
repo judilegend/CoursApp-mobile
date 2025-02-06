@@ -9,23 +9,26 @@ import { searchBarStyles } from "@/styles/searchbar.styles";
 import LearningSection from "./LearningSection";
 import { WhatTodoSection } from "./watchsection/WhatTodoSection";
 import { CategorieFilter } from "./cours/CategorieCours";
+import { useTab } from "@/context/TabContext";
 
 const HomeScreen: React.FC = () => {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState("home");
   const [activeFilters, setActiveFilters] = useState<string[]>(["1"]);
+  //context pour le tab global
+  const { currentTab, setCurrentTab } = useTab();
 
   const handleTabPress = (tab: string) => {
-    setActiveTab(tab);
+    setCurrentTab(tab);
     switch (tab) {
       case "home":
-        router.push("/");
+        router.push("/home");
         break;
       case "book":
-        router.push("/thematique");
+        router.push("/cours");
         break;
       case "profile":
-        router.push("/notifications");
+        router.push("/profil");
         break;
     }
   };
@@ -84,7 +87,7 @@ const HomeScreen: React.FC = () => {
           renderItem={() => renderContent()}
           ListHeaderComponent={renderHeader}
         />
-        <BottomNavigation activeTab={activeTab} onTabPress={handleTabPress} />
+        <BottomNavigation activeTab={currentTab} onTabPress={handleTabPress} />
       </SafeAreaView>
     </View>
   );

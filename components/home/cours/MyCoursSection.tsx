@@ -5,13 +5,10 @@ import { mockMyCourseData } from "../mockData";
 import { colorHome } from "@/constants/themeHome";
 
 const MyCourseSection: React.FC = () => {
-  console.log("Rendering MyCourseSection...");
-  console.log("mockMyCourseData:", mockMyCourseData);
   return (
     <View style={styles.container}>
       <View style={styles.sectionHeader}>
         <Text style={styles.sectionTitle}>My Courses</Text>
-        <Text style={styles.seeAll}>See all</Text>
       </View>
       <FlatList
         data={mockMyCourseData}

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import {
   View,
   Image,
@@ -13,25 +13,26 @@ import { useRouter } from "expo-router";
 import { useCourseContext } from "@/context/CourseContext";
 
 const { width } = Dimensions.get("window");
-const column_width = (width - 48) / 2; // 48 = padding horizontal total (16 * 2 + gap 16)
+const colum_url = (width - 48) / 2; // 48 = padding horizontal total (16 * 2 + gap 16)
 
 const MyCourseItem: React.FC<MyCourseItemProps> = ({ data }) => {
   const router = useRouter();
-  //context cours
   const { setSelectedCourse } = useCourseContext();
+
   const handlePress = () => {
-    setSelectedCourse(data);
-    router.push(`/course/${data.id}`);
+    if (data) {
+      setSelectedCourse(data);
+      router.push(`/course/${data.id}`);
+    }
   };
 
   return (
     <TouchableOpacity style={styles.container} onPress={handlePress}>
-      {" "}
       <Image
         source={
-          typeof data.imageUrl === "string"
-            ? { uri: data.imageUrl } // Image distante
-            : data.imageUrl // Image locale (require)
+          typeof data?.imageUrl === "string"
+            ? { uri: data.imageUrl }
+            : data.imageUrl // Utilisation d'une image par défaut
         }
         style={styles.image}
       />
@@ -40,14 +41,14 @@ const MyCourseItem: React.FC<MyCourseItemProps> = ({ data }) => {
           <Text style={styles.categoryText}>Design</Text>
         </View>
         <Text style={styles.title} numberOfLines={2}>
-          {data.title}
+          {data?.title ?? "Untitled Course"}
         </Text>
 
         <View style={styles.statsContainer}>
           <View style={styles.ratingContainer}>
             <Ionicons name="star" size={16} color="#FFD700" />
             <Text style={styles.rating}>
-              {data.rating ? data.rating.toFixed(1) : "0.0"}
+              {data?.rating ? data.rating.toFixed(1) : "0.0"}
             </Text>
           </View>
 
@@ -59,11 +60,11 @@ const MyCourseItem: React.FC<MyCourseItemProps> = ({ data }) => {
 
         <View style={styles.progressContainer}>
           <View
-            style={[styles.progressBar, { width: `${data.progress || 0}%` }]}
+            style={[styles.progressBar, { width: `${data?.progress || 0}%` }]}
           />
         </View>
         <Text style={styles.progressText}>
-          {data.progress ? `${data.progress}% completed` : "0% completed"}
+          {data?.progress ? `${data.progress}% completed` : "0% completed"}
         </Text>
       </View>
     </TouchableOpacity>
@@ -72,15 +73,12 @@ const MyCourseItem: React.FC<MyCourseItemProps> = ({ data }) => {
 
 const styles = StyleSheet.create({
   container: {
-    width: column_width,
+    width: colum_url,
     backgroundColor: "#fff",
     borderRadius: 16,
     overflow: "hidden",
     shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
+    shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 3.84,
     elevation: 5,
@@ -156,4 +154,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MyCourseItem;
+export default memo(MyCourseItem);
