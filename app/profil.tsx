@@ -1,9 +1,10 @@
 import { useTab } from "@/context/TabContext";
 import { useEffect } from "react";
-import { Text } from "react-native";
+import { View } from "react-native";
+import ProfileScreen from "@/components/profile/ProfileScreen";
 import { useNavigation } from "expo-router";
 
-export default function Profil() {
+export default function Profile() {
   const { setCurrentTab } = useTab();
   const navigation = useNavigation();
 
@@ -17,5 +18,9 @@ export default function Profil() {
     return unsubscribe;
   }, []);
 
-  return <Text>Profil</Text>;
+  return (
+    <View style={{ flex: 1, backgroundColor: "#fff" }}>
+      <ProfileScreen />
+    </View>
+  );
 }
