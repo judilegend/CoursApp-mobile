@@ -35,11 +35,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   imageContainer: {
-    width: 250,
-    height: 250,
+    width: 350,
+    height: 450,
     borderRadius: 125,
-    overflow: "hidden",
-    backgroundColor: "#E6F4F1",
+    // backgroundColor: "#E6F4F1",
     marginBottom: 30,
   },
   image: {
