@@ -1,12 +1,16 @@
 import React from "react";
-import { View, Text, Image, StyleSheet } from "react-native";
+import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-// import { colorHome } from "@/constants/themeHome";
+import { useRouter } from "expo-router";
 import { Course } from "@/types/course";
-type courseHeaderProps = {
+
+type CourseHeaderProps = {
   course: Course;
 };
-export const CourseHeader: React.FC<courseHeaderProps> = ({ course }) => {
+
+export const CourseHeader: React.FC<CourseHeaderProps> = ({ course }) => {
+  const router = useRouter();
+
   return (
     <View style={styles.header}>
       <Image
@@ -17,6 +21,10 @@ export const CourseHeader: React.FC<courseHeaderProps> = ({ course }) => {
         }
         style={styles.courseImage}
       />
+      <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
+        <Ionicons name="arrow-back" size={24} color="#fff" />
+      </TouchableOpacity>
+
       <View style={styles.overlay}>
         <Text style={styles.title}>{course.title}</Text>
         <View style={styles.statsRow}>
@@ -28,6 +36,10 @@ export const CourseHeader: React.FC<courseHeaderProps> = ({ course }) => {
             <Ionicons name="time-outline" size={20} color="#fff" />
             <Text style={styles.statText}>10 hours</Text>
           </View>
+          <View style={styles.statItem}>
+            <Ionicons name="people-outline" size={20} color="#fff" />
+            <Text style={styles.statText}>2.3k students</Text>
+          </View>
         </View>
       </View>
     </View>
@@ -36,12 +48,25 @@ export const CourseHeader: React.FC<courseHeaderProps> = ({ course }) => {
 
 const styles = StyleSheet.create({
   header: {
-    height: 250,
+    height: 300,
     position: "relative",
   },
   courseImage: {
     width: "100%",
     height: "100%",
+    resizeMode: "cover",
+  },
+  backButton: {
+    position: "absolute",
+    top: 50,
+    left: 16,
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: "rgba(0,0,0,0.3)",
+    justifyContent: "center",
+    alignItems: "center",
+    zIndex: 10,
   },
   overlay: {
     position: "absolute",
@@ -49,25 +74,28 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     padding: 20,
-    backgroundColor: "rgba(0,0,0,0.5)",
+    paddingBottom: 32,
+    backgroundColor:
+      "linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.8) 100%)",
   },
   title: {
-    fontSize: 24,
+    fontSize: 28,
     fontWeight: "bold",
     color: "#fff",
-    marginBottom: 8,
+    marginBottom: 16,
   },
   statsRow: {
     flexDirection: "row",
-    gap: 16,
+    gap: 20,
   },
   statItem: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 4,
+    gap: 8,
   },
   statText: {
     color: "#fff",
     fontSize: 16,
+    fontWeight: "500",
   },
 });

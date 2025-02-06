@@ -1,6 +1,8 @@
 import React from "react";
-import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 import { Course } from "@/types/course";
+import { colorHome } from "@/constants/themeHome";
 
 type CourseCardProps = {
   course: Course;
@@ -8,66 +10,85 @@ type CourseCardProps = {
 
 const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
   return (
-    <View style={styles.cardContainer}>
-      <Image source={{ uri: course.image }} style={styles.courseImage} />
-      <View style={styles.textContainer}>
-        <Text style={styles.courseTitle}>{course.title}</Text>
-        <Text style={styles.courseMeta}>
-          {course.description} | ⭐ {course.rating}
-        </Text>
-        <Text style={styles.courseDescription}>{course.description}</Text>
-        <TouchableOpacity style={styles.enrollButton}>
-          <Text style={styles.enrollButtonText}>Enroll Now</Text>
-        </TouchableOpacity>
+    <View style={styles.container}>
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>About this course</Text>
+        <Text style={styles.description}>{course.description}</Text>
       </View>
+
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>What you'll learn</Text>
+        <View style={styles.learningPoints}>
+          {["Point 1", "Point 2", "Point 3"].map((point, index) => (
+            <View key={index} style={styles.point}>
+              <Ionicons name="checkmark-circle" size={20} color="#4CAF50" />
+              <Text style={styles.pointText}>{point}</Text>
+            </View>
+          ))}
+        </View>
+      </View>
+
+      <TouchableOpacity style={styles.enrollButton}>
+        <Text style={styles.enrollButtonText}>Enroll Now</Text>
+        <Ionicons name="arrow-forward" size={20} color="#fff" />
+      </TouchableOpacity>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  cardContainer: {
+  container: {
     backgroundColor: "#fff",
-    borderRadius: 8,
-    padding: 12,
-    marginBottom: 16,
+    borderRadius: 16,
+    padding: 20,
+    marginBottom: 20,
     shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 2,
+    shadowRadius: 8,
+    elevation: 3,
   },
-  courseImage: {
-    width: "100%",
-    height: 150,
-    borderRadius: 8,
+  section: {
+    marginBottom: 24,
   },
-  textContainer: {
-    marginTop: 8,
+  sectionTitle: {
+    fontSize: 20,
+    fontWeight: "600",
+    color: "#1a1a1a",
+    marginBottom: 12,
   },
-  courseTitle: {
-    fontSize: 18,
-    fontWeight: "bold",
+  description: {
+    fontSize: 16,
+    lineHeight: 24,
+    color: "#666",
   },
-  courseMeta: {
-    fontSize: 14,
-    color: "#777",
-    marginTop: 4,
+  learningPoints: {
+    gap: 12,
   },
-  courseDescription: {
-    fontSize: 14,
-    color: "#555",
-    marginTop: 4,
+  point: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 10,
+  },
+  pointText: {
+    fontSize: 16,
+    color: "#444",
+    flex: 1,
   },
   enrollButton: {
-    backgroundColor: "#007bff",
-    padding: 10,
-    borderRadius: 4,
-    marginTop: 8,
+    flexDirection: "row",
+    backgroundColor: colorHome.primary,
+    padding: 16,
+    borderRadius: 12,
+    justifyContent: "center",
     alignItems: "center",
+    gap: 8,
+    marginTop: 8,
   },
   enrollButtonText: {
-    color: "white",
-    fontSize: 16,
-    fontWeight: "bold",
+    color: "#fff",
+    fontSize: 18,
+    fontWeight: "600",
   },
 });
 
