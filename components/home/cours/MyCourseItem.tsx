@@ -21,10 +21,7 @@ const MyCourseItem: React.FC<MyCourseItemProps> = ({ data }) => {
   const { setSelectedCourse } = useCourseContext();
   const handlePress = () => {
     setSelectedCourse(data);
-    router.push({
-      pathname: "/course/[id]",
-      params: { id: data.id },
-    });
+    router.push(`/course/${data.id}`);
   };
 
   return (
@@ -49,7 +46,9 @@ const MyCourseItem: React.FC<MyCourseItemProps> = ({ data }) => {
         <View style={styles.statsContainer}>
           <View style={styles.ratingContainer}>
             <Ionicons name="star" size={16} color="#FFD700" />
-            <Text style={styles.rating}>{data.rating.toFixed(1)}</Text>
+            <Text style={styles.rating}>
+              {data.rating ? data.rating.toFixed(1) : "0.0"}
+            </Text>
           </View>
 
           <View style={styles.lessonInfo}>
@@ -63,7 +62,9 @@ const MyCourseItem: React.FC<MyCourseItemProps> = ({ data }) => {
             style={[styles.progressBar, { width: `${data.progress || 0}%` }]}
           />
         </View>
-        <Text style={styles.progressText}>{data.progress || 0}% completed</Text>
+        <Text style={styles.progressText}>
+          {data.progress ? `${data.progress}% completed` : "0% completed"}
+        </Text>
       </View>
     </TouchableOpacity>
   );

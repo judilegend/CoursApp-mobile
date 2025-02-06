@@ -74,7 +74,6 @@ const HomeScreen: React.FC = () => {
       <LearningSection watchingData={[]} myCourseData={[]} />
     </View>
   );
-
   return (
     <View style={homeScreenStyles.container}>
       <SafeAreaView style={{ flex: 1 }}>

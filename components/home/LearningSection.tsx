@@ -31,7 +31,7 @@ const LearningSection: React.FC<LearningSectionProps> = () => {
       </View>
 
       {/* My Course Section */}
-      <MyCourseSection />
+      {/* <MyCourseSection /> */}
     </View>
   );
 };
