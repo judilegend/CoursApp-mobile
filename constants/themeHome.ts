@@ -1,0 +1,17 @@
+export const colorHome = {
+  primary: "#0f6b76",
+  secondary: "#3B82F6",
+  accent: "#0f6b76",
+  success: "#10B981",
+  warning: "#F59E0B",
+  dark: "#111827",
+  bgnav: "#0f6b76",
+  activeTab: "#FAAF3A",
+  light: "#FFFFFF",
+  grey: "#F3F4F6",
+  textPrimary: "#1F2937",
+  textWelcome: "#0f6b76",
+  textSecondary: "#6B7280",
+  gradientStart: "rgba(37, 99, 235, 0.9)",
+  gradientEnd: "rgba(59, 130, 246, 0.9)",
+};
