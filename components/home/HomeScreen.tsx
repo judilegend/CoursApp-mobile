@@ -25,7 +25,7 @@ const HomeScreen: React.FC = () => {
         router.push("/home");
         break;
       case "book":
-        router.push("/cours");
+        router.push("/course");
         break;
       case "profile":
         router.push("/profil");

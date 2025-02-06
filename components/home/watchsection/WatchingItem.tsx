@@ -1,59 +1,54 @@
 import React, { useState } from "react";
-import {
-  View,
-  TouchableOpacity,
-  Text,
-  StyleSheet,
-  Dimensions,
-} from "react-native";
+import { View, TouchableOpacity, Text, StyleSheet } from "react-native";
 import { Video } from "expo-av";
-import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import { WatchingItemProps } from "../../../types";
+import { VideoModal } from "./VideoModal";
 import { colorHome } from "@/constants/themeHome";
 
 const WatchingItem: React.FC<WatchingItemProps> = ({ data }) => {
-  const navigation = useNavigation();
-  const [isHovered, setIsHovered] = useState(false);
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   const handlePress = () => {
-    // navigation.navigate("CourseDetail", {
-    //   courseId: data.id,
-    //   title: data.title,
-    //   videoUrl: data.videoUrl,
-    //   description: data.description,
-    // });
+    setIsModalVisible(true);
   };
 
   return (
-    <TouchableOpacity
-      style={styles.container}
-      onPress={handlePress}
-      activeOpacity={0.7}
-    >
-      <View style={styles.videoContainer}>
-        <Video
-          source={{ uri: data.videoUrl }}
-          style={styles.video}
-          useNativeControls={false}
-          // resizeMode="cover"
-          isLooping={false}
-          shouldPlay={false}
-        />
-        <View style={styles.overlay}>
-          <Ionicons name="play-circle" size={32} color="white" />
-          <Text style={styles.duration}>{data.duration}</Text>
+    <>
+      <TouchableOpacity
+        style={styles.container}
+        onPress={handlePress}
+        activeOpacity={0.7}
+      >
+        <View style={styles.videoContainer}>
+          <Video
+            source={{ uri: data.videoUrl }}
+            style={styles.video}
+            useNativeControls={false}
+            isLooping={false}
+            shouldPlay={false}
+          />
+          <View style={styles.overlay}>
+            <Ionicons name="play-circle" size={32} color="white" />
+            <Text style={styles.duration}>{data.duration}</Text>
+          </View>
         </View>
-      </View>
-      <View style={styles.infoContainer}>
-        <Text style={styles.title} numberOfLines={2}>
-          {data.title}
-        </Text>
-        <Text style={styles.description} numberOfLines={2}>
-          {data.description}
-        </Text>
-      </View>
-    </TouchableOpacity>
+        <View style={styles.infoContainer}>
+          <Text style={styles.title} numberOfLines={2}>
+            {data.title}
+          </Text>
+          <Text style={styles.description} numberOfLines={2}>
+            {data.description}
+          </Text>
+        </View>
+      </TouchableOpacity>
+
+      <VideoModal
+        isVisible={isModalVisible}
+        videoUrl={data.videoUrl}
+        onClose={() => setIsModalVisible(false)}
+      />
+    </>
   );
 };
 
@@ -71,17 +66,17 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 3.84,
     elevation: 5,
-    marginBottom: 8,
   },
   videoContainer: {
     position: "relative",
-  },
-  video: {
-    width: "100%",
     height: 120,
     borderTopLeftRadius: 12,
     borderTopRightRadius: 12,
-    backgroundColor: "#f0f0f0",
+    overflow: "hidden",
+  },
+  video: {
+    width: "100%",
+    height: "100%",
   },
   overlay: {
     position: "absolute",
@@ -89,11 +84,9 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: "rgba(0,0,0,0.2)",
+    backgroundColor: "rgba(0,0,0,0.3)",
     justifyContent: "center",
     alignItems: "center",
-    borderTopLeftRadius: 12,
-    borderTopRightRadius: 12,
   },
   infoContainer: {
     padding: 12,
