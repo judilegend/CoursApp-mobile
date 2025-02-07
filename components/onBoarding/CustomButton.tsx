@@ -10,7 +10,7 @@ export function CustomButton({ currentIndex, dataLength, onPress }: Props) {
   return (
     <TouchableOpacity style={styles.button} onPress={onPress}>
       <Text style={styles.buttonText}>
-        {currentIndex === dataLength - 1 ? "Commencer" : "Continuer"}
+        {currentIndex === dataLength - 1 ? "Get started" : "continue"}
       </Text>
     </TouchableOpacity>
   );

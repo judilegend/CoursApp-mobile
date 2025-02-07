@@ -16,6 +16,7 @@ import { colorHome } from "@/constants/themeHome";
 
 const schema = yup
   .object({
+    fullName: yup.string().required("Le nom complet est requis"),
     email: yup
       .string()
       .email("Format d'email invalide")
@@ -24,18 +25,24 @@ const schema = yup
       .string()
       .min(6, "Le mot de passe doit contenir au moins 6 caractères")
       .required("Le mot de passe est requis"),
+    confirmPassword: yup
+      .string()
+      .oneOf([yup.ref("password")], "Les mots de passe ne correspondent pas")
+      .required("La confirmation du mot de passe est requise"),
   })
   .required();
 
 type FormData = {
+  fullName: string;
   email: string;
   password: string;
+  confirmPassword: string;
 };
 
-const LoginScreen = () => {
+const RegisterScreen = () => {
   const router = useRouter();
   const [isLoading, setIsLoading] = React.useState(false);
-  const [authError, setAuthError] = React.useState<string | null>(null);
+  const [registerError, setRegisterError] = React.useState<string | null>(null);
 
   const {
     control,
@@ -45,28 +52,30 @@ const LoginScreen = () => {
   } = useForm<FormData>({
     resolver: yupResolver(schema),
     defaultValues: {
+      fullName: "",
       email: "",
       password: "",
+      confirmPassword: "",
     },
   });
 
   const onSubmit = async (data: FormData) => {
     try {
       setIsLoading(true);
-      setAuthError(null);
+      setRegisterError(null);
 
-      // Simuler un délai d'authentification
+      // Simuler un délai d'enregistrement
       await new Promise((resolve) => setTimeout(resolve, 1500));
 
-      // Simulation de validation - à remplacer par votre API
-      const isValid = true;
+      // Simulation de création de compte - à remplacer par votre API
+      const isCreated = true;
 
-      if (isValid) {
+      if (isCreated) {
         reset();
         router.push("/home");
       }
     } catch (error) {
-      setAuthError("Échec de la connexion. Veuillez réessayer.");
+      setRegisterError("Échec de l'inscription. Veuillez réessayer.");
     } finally {
       setIsLoading(false);
     }
@@ -82,12 +91,33 @@ const LoginScreen = () => {
         />
       </View>
 
-      <Text style={styles.title}>SIGN IN</Text>
+      <Text style={styles.title}>SIGN UP</Text>
       <Text style={styles.subtitle}>
-        Welcome back! Please login to your account
+        Create your account to start your journey
       </Text>
 
-      {authError && <Text style={styles.errorMessage}>{authError}</Text>}
+      {registerError && (
+        <Text style={styles.errorMessage}>{registerError}</Text>
+      )}
+
+      <Controller
+        control={control}
+        name="fullName"
+        render={({ field: { onChange, value } }) => (
+          <>
+            <TextInput
+              style={[styles.input, errors.fullName && styles.inputError]}
+              placeholder="Full Name"
+              onChangeText={onChange}
+              value={value}
+              editable={!isLoading}
+            />
+            {errors.fullName && (
+              <Text style={styles.errorText}>{errors.fullName.message}</Text>
+            )}
+          </>
+        )}
+      />
 
       <Controller
         control={control}
@@ -131,6 +161,32 @@ const LoginScreen = () => {
         )}
       />
 
+      <Controller
+        control={control}
+        name="confirmPassword"
+        render={({ field: { onChange, value } }) => (
+          <>
+            <TextInput
+              style={[
+                styles.input,
+                errors.confirmPassword && styles.inputError,
+              ]}
+              placeholder="Confirm Password"
+              secureTextEntry
+              onChangeText={onChange}
+              value={value}
+              autoCapitalize="none"
+              editable={!isLoading}
+            />
+            {errors.confirmPassword && (
+              <Text style={styles.errorText}>
+                {errors.confirmPassword.message}
+              </Text>
+            )}
+          </>
+        )}
+      />
+
       <TouchableOpacity
         style={[styles.button, isLoading && styles.buttonDisabled]}
         onPress={handleSubmit(onSubmit)}
@@ -139,16 +195,17 @@ const LoginScreen = () => {
         {isLoading ? (
           <ActivityIndicator color="white" />
         ) : (
-          <Text style={styles.buttonText}>LOGIN</Text>
+          <Text style={styles.buttonText}>SIGN UP</Text>
         )}
       </TouchableOpacity>
 
       <TouchableOpacity
-        onPress={() => router.push("/register")}
+        onPress={() => router.push("/login")}
         disabled={isLoading}
       >
         <Text style={styles.footerText}>
-          Don't have an account? <Text style={styles.linkText}>Sign up</Text>
+          Already have an account?{" "}
+          <Text style={styles.linkText}>Sign in here</Text>
         </Text>
       </TouchableOpacity>
     </View>
@@ -236,4 +293,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LoginScreen;
+export default RegisterScreen;
