@@ -8,17 +8,15 @@ import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
-
 import { useColorScheme } from "@/components/useColorScheme";
+import { CourseProvider } from "@/context/CourseContext";
+import { TabProvider } from "@/context/TabContext";
 
 export { ErrorBoundary } from "expo-router";
 
 export const unstable_settings = {
-  initialRouteName: "index",
+  initialRouteName: "splash",
 };
-
-import { CourseProvider } from "@/context/CourseContext";
-import { TabProvider } from "@/context/TabContext";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -53,16 +51,11 @@ function RootLayoutNav() {
       <TabProvider>
         <CourseProvider>
           <Stack>
+            <Stack.Screen name="splash" options={{ headerShown: false }} />
             <Stack.Screen name="index" options={{ headerShown: false }} />
             <Stack.Screen name="login" options={{ headerShown: false }} />
-            <Stack.Screen
-              name="dashboard"
-              options={{ title: "Tableau de Bord", headerShown: false }}
-            />
-            <Stack.Screen
-              name="home"
-              options={{ title: "Page d'acceuil", headerShown: false }}
-            />
+            <Stack.Screen name="dashboard" options={{ headerShown: false }} />
+            <Stack.Screen name="home" options={{ headerShown: false }} />
           </Stack>
         </CourseProvider>
       </TabProvider>

@@ -1,5 +1,6 @@
 import { StyleSheet, Dimensions } from "react-native";
 import { COLORS } from "../constants/theme";
+import { colorHome } from "@/constants/themeHome";
 
 const { width, height } = Dimensions.get("window");
 
@@ -111,7 +112,7 @@ export const styles = StyleSheet.create({
     borderColor: "rgba(255, 255, 255, 0.2)",
   },
   loadingText: {
-    color: "rgba(255, 255, 255, 0.9)",
+    color: colorHome.primary,
     fontSize: 14,
     fontWeight: "500",
     letterSpacing: 1,

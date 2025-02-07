@@ -1,4 +1,3 @@
-// components/onboarding/Paginator.tsx
 import { View, Animated, StyleSheet, useWindowDimensions } from "react-native";
 import { OnboardingItemType } from "@/types/onboarding";
 
